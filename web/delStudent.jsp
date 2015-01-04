@@ -1,24 +1,22 @@
 <%-- 
     Document   : delStudent
-    Created on : 01.01.2015, 20:38:51
+    Created on : 04.01.2015, 8:14:16
     Author     : Katya
 --%>
 
-<%@page import="appServlets.MySessionListener"%>
-<%@page import="dao.JDBCStudentDAO"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
+<%
+    String s = (String)request.getAttribute("message");
+    %>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
     </head>
-    <body background="java.jpg">
+    <body>
         <h1>
-        <%
-            String s = new JDBCStudentDAO().deleteStudent(MySessionListener.connection, request.getParameter("FirstName"), request.getParameter("LastName"));
-            %>
-            <%= s%>
+        <%= s%>
         </h1>
     </body>
 </html>

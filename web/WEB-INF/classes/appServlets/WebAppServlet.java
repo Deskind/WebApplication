@@ -43,44 +43,12 @@ public class WebAppServlet extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-//    Connection connection = null;
-//    public void init(){
-//      try{
-//            Class.forName("com.mysql.jdbc.Driver");
-//            if(connection == null){
-//                try {
-//                    connection = DriverManager.getConnection(JDBCStudentDAO.getURL(), JDBCStudentDAO.getNAME(), JDBCStudentDAO.getPASSWORD());
-//                } catch (SQLException ex) {
-//                    Logger.getLogger(WebAppServlet.class.getName()).log(Level.SEVERE, null, ex);
-//                }
-//            }
-//        }catch (ClassNotFoundException e){
-//            System.out.println("Class not found ecxeption");
-//        }  
-//    }
-    
-    
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         
-//        Connection connection = null;
-         HttpSession httpSession = null;
-        
-        //Create the session
-        httpSession = request.getSession();
-        
-        
-                
-//        connection = MySessionListener.connection;
-        
-        
-        
-        
-        
-        Student student = null;
-        LinkedList<Discipline> disciplineList = null;
-        String s = null;
+        HttpSession httpSession = request.getSession();
         
         String form = request.getParameter("formName");
         switch(form) {
@@ -104,8 +72,8 @@ public class WebAppServlet extends HttpServlet {
             out.println("</body>");
             out.println("</html>");
         }
-
                 break;
+                
             case "delForm":
                 response.setContentType("text/html;charset=UTF-8");
        try (PrintWriter out = response.getWriter()) {
@@ -126,163 +94,49 @@ public class WebAppServlet extends HttpServlet {
             out.println("</body>");
             out.println("</html>");
         }
-
                 break;
-    
                 
             case "getAllForm": 
-//                getServletContext().getRequestDispatcher("/SelectAll.jsp").forward(request, response);
-            LinkedList<Student> studentList = new JDBCStudentDAO().selectAllStudents(MySessionListener.connection); 
-                
-            response.setContentType("text/html;charset=UTF-8");
-            try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet Test</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            for(Student st : studentList){
-                out.println("<h1>" +st.toString()+ "</h1>");
-            }
-            out.println("</body>");
-            out.println("</html>");
-            
-        }
+                LinkedList<Student> studentList = new JDBCStudentDAO().selectAllStudents(MySessionListener.connection); 
+                request.setAttribute("studentList", new JDBCStudentDAO().selectAllStudents(new MySessionListener().connection));
+                request.getRequestDispatcher("showAllStudents.jsp").forward(request, response);
                 break;
             case "addStudentForm":
-                s = new JDBCStudentDAO().addStudent(MySessionListener.connection, request.getParameter("FirstName"), request.getParameter("LastName"));
-                response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet Test</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>" + s + "</h1>");
-            out.println("</form>");
-            out.println("</body>");
-            out.println("</html>");
-        }
+            request.setAttribute("message", new JDBCStudentDAO().addStudent(MySessionListener.connection,
+            request.getParameter("FirstName"), request.getParameter("LastName")));
+            request.getRequestDispatcher("addStudent.jsp").forward(request, response);
                 break;
             case "deleteStudentForm":
-//                s = new JDBCStudentDAO().deleteStudent(connection, request.getParameter("FirstName"), request.getParameter("LastName"));
-                response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet Test</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>" + s + "</h1>");
-            out.println("</form>");
-            out.println("</body>");
-            out.println("</html>");
-        }
+            request.setAttribute("message", new JDBCStudentDAO().deleteStudent(MySessionListener.connection,
+            request.getParameter("FirstName"), request.getParameter("LastName")));
+            request.getRequestDispatcher("delStudent.jsp").forward(request, response);
                 break;
             case "findStudentForm":
-//                student = new JDBCStudentDAO().findStudent(connection, request.getParameter("FirstName"), request.getParameter("LastName"));
-                response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet Test</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            if(student == null){
-                 out.println("<h1> Student not found </h1>");
-            }else{
-                 out.println("<h1>" + student.toString() + "</h1>");
-            }
-            out.println("</form>");
-            out.println("</body>");
-            out.println("</html>");
-        }
+            request.setAttribute("student", new JDBCStudentDAO().findStudent(MySessionListener.connection,
+            request.getParameter("FirstName"), request.getParameter("LastName")));
+            request.getRequestDispatcher("findStudent.jsp").forward(request, response);
                 break;
             case "firstNameChangeForm":
-//                s = new JDBCStudentDAO().changeFirstName(connection, request.getParameter("FirstName"), request.getParameter("LastName"),request.getParameter("NewName"));
-                response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet Test</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>" + s + "</h1>");
-            out.println("</form>");
-            out.println("</body>");
-            out.println("</html>");
-        }
+            request.setAttribute("message", new JDBCStudentDAO().changeFirstName(MySessionListener.connection,
+            request.getParameter("FirstName"), request.getParameter("LastName"), request.getParameter("NewName")));
+            request.getRequestDispatcher("changeFirstName.jsp").forward(request, response);
                 break;
             case "lastNameChangeForm":
-//                s = new JDBCStudentDAO().changeLastName(connection, request.getParameter("FirstName"), request.getParameter("LastName"),request.getParameter("NewName"));
-                response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet Test</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>" + s + "</h1>");
-            out.println("</form>");
-            out.println("</body>");
-            out.println("</html>");
-        }
+            request.setAttribute("message", new JDBCStudentDAO().changeLastName(MySessionListener.connection,
+            request.getParameter("FirstName"), request.getParameter("LastName"), request.getParameter("NewName")));
+            request.getRequestDispatcher("changeLastName.jsp").forward(request, response);
                 break;
             case "assingDisciplineForm":
-//                s = new JDBCStudentDAO().assignDiscipline(connection, request.getParameter("FirstName"), request.getParameter("LastName"),request.getParameter("Discipline"));
-                response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet Test</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>" + s + "</h1>");
-            out.println("</form>");
-            out.println("</body>");
-            out.println("</html>");
-        }
+            request.setAttribute("message", new JDBCStudentDAO().assignDiscipline(MySessionListener.connection,
+            request.getParameter("FirstName"), request.getParameter("LastName"), request.getParameter("Discipline")));
+            request.getRequestDispatcher("assignDiscipline.jsp").forward(request, response);
                 break;
             case "getDisciplineForm":
-//                disciplineList = new JDBCStudentDAO().getAllStudentsDisciplines(connection, request.getParameter("FirstName"), request.getParameter("LastName"));
-                response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet Test</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            if(disciplineList.size()==0){
-                out.println("<h1>The student don't have any disciplines</h1>");
-            }else{
-                for(Discipline d : disciplineList){
-                    out.println("<h1>" + d.toString() + "</h1>");
-                }
-            }
-            out.println("</form>");
-            out.println("</body>");
-            out.println("</html>");
-        }
+            request.setAttribute("disciplineList", new JDBCStudentDAO().getAllStudentsDisciplines(MySessionListener.connection,
+            request.getParameter("FirstName"), request.getParameter("LastName")));
+            request.getRequestDispatcher("getStudentDisciplines.jsp").forward(request, response);
                 break;
-
         }
-        
     }
     
     public void destroy(){

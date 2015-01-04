@@ -1,23 +1,22 @@
 <%-- 
-    Document   : ChangeFirstName
-    Created on : 02.01.2015, 13:42:38
+    Document   : changeFirstName
+    Created on : 04.01.2015, 8:29:37
     Author     : Katya
 --%>
 
-<%@page import="appServlets.MySessionListener"%>
-<%@page import="dao.JDBCStudentDAO"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
+<%
+    String s = (String)request.getAttribute("message");
+    %>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
     </head>
-    <body background="java.jpg">
+    <body>
         <h1>
-            <% String s = new JDBCStudentDAO().changeFirstName(MySessionListener.connection, request.getParameter("FirstName"),
-                    request.getParameter("LastName"), request.getParameter("NewName"));%>
-            <%= s%>
+        <%= s%>
         </h1>
     </body>
 </html>

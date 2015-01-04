@@ -1,24 +1,22 @@
 <%-- 
     Document   : addStudent
-    Created on : 02.01.2015, 12:25:54
+    Created on : 03.01.2015, 18:38:25
     Author     : Katya
 --%>
 
-<%@page import="appServlets.MySessionListener"%>
-<%@page import="dao.JDBCStudentDAO"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
+<%
+    String s = (String)request.getAttribute("message");
+    %>
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
     </head>
-    <body background="java.jpg">
+    <body>
         <h1>
-            <%
-            String s = new JDBCStudentDAO().addStudent(MySessionListener.connection, request.getParameter("FirstName"), request.getParameter("LastName"));
-            %>
-            <%= s%>
+        <%= s%>
         </h1>
     </body>
 </html>
